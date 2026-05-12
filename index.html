@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quelfix</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .splash {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--color-border);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="splash">
+    <div class="spinner"></div>
+    <p class="text-muted">Cargando...</p>
+  </div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <!-- Core -->
+  <script src="/js/config.js"></script>
+  <script src="/js/core/auth.js"></script>
+
+  <script>
+    (async () => {
+      const session = await getSession();
+      if (!session) {
+        window.location.href = '/login.html';
+      } else {
+        await redirectByRole();
+      }
+    })();
+  </script>
+</body>
+</html>
