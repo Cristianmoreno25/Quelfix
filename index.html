@@ -3,49 +3,431 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quelfix</title>
+  <title>Quelfix — Gestión de tickets de soporte técnico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
-  <style>
-    .splash {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid var(--color-border);
-      border-top-color: var(--color-primary);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+  <link rel="stylesheet" href="/css/pages/index.css" />
 </head>
 <body>
-  <div class="splash">
-    <div class="spinner"></div>
-    <p class="text-muted">Cargando...</p>
-  </div>
 
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <!-- Core -->
+  <!-- ─── NAVBAR ──────────────────────────────────────────────────── -->
+  <nav class="qnav" id="qnav">
+    <div class="qnav__inner">
+      <span class="qnav__logo">Quelfix</span>
+      <a href="/login.html" class="qnav__cta">Iniciar sesión</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__bg">
+      <div class="orb orb--1"></div>
+      <div class="orb orb--2"></div>
+      <div class="orb orb--3"></div>
+      <div class="orb orb--4"></div>
+    </div>
+
+    <!-- Líneas de cuadrícula decorativas -->
+    <div class="hero__grid-lines" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="hero__wrap">
+
+      <!-- Texto centrado -->
+      <div class="hero__copy">
+        <span class="hero__pill" id="hero-pill">
+          <span class="hero__pill-dot"></span>
+          Sistema de soporte técnico
+        </span>
+
+        <h1 class="hero__h1">
+          <span class="hero__h1-line" id="hero-line-1">Tickets bajo control.</span>
+          <span class="hero__h1-line hero__gradient">
+            <span id="hero-typewriter"></span><span class="hero__cursor" id="hero-cursor">|</span>
+          </span>
+        </h1>
+
+        <p class="hero__sub" id="hero-sub">
+          Quelfix centraliza reportes técnicos, asigna automáticamente
+          al equipo correcto y permite revisar fragmentos de código
+          con puntuaciones detalladas — todo en tiempo real.
+        </p>
+
+        <div class="hero__actions" id="hero-actions">
+          <a href="/login.html" class="hbtn hbtn--primary">Comenzar ahora →</a>
+          <a href="#como-funciona" class="hbtn hbtn--ghost">¿Cómo funciona? ↓</a>
+        </div>
+
+        <div class="hero__trust" id="hero-trust">
+          <span class="htrust-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            RLS activo
+          </span>
+          <span class="htrust-sep"></span>
+          <span class="htrust-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            Auto-asignación
+          </span>
+          <span class="htrust-sep"></span>
+          <span class="htrust-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Tiempo real
+          </span>
+        </div>
+      </div>
+
+      <!-- Tarjetas flotantes -->
+      <div class="hero__cards" id="hero-visual">
+
+        <!-- Tarjeta principal (centro) -->
+        <div class="mcard mcard--main">
+          <div class="mcard__head">
+            <span class="mpill mpill--critica">Crítica</span>
+            <span class="mstate mstate--proceso">● en_proceso</span>
+          </div>
+          <p class="mcard__title">Error en módulo de autenticación OAuth</p>
+          <div class="mcard__meta">
+            <span class="mtag">revision_codigo</span>
+            <span class="massign">👨‍💻 Auto-asignado</span>
+          </div>
+          <div class="mcard__bar-wrap">
+            <div class="mcard__bar" style="width:65%"></div>
+          </div>
+          <div class="mcard__footer">
+            <span>Puntuación: 3.8 / 5</span>
+            <span>hace 2 h</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta izquierda: ticket resuelto -->
+        <div class="mcard mcard--sm mcard--left">
+          <div class="mcard__head">
+            <span class="mpill mpill--alta">Alta</span>
+            <span class="mstate mstate--resuelto">✓ resuelto</span>
+          </div>
+          <p class="mcard__title mcard__title--sm">Validación incompleta en formulario de pagos</p>
+        </div>
+
+        <!-- Tarjeta derecha: revisión de código -->
+        <div class="mcard mcard--sm mcard--right">
+          <p class="mcard__score-label">Revisión de código</p>
+          <div class="mcard__scores">
+            <div class="mscore">
+              <span>Error lógico</span>
+              <div class="mscore__track"><div class="mscore__fill" style="--pct:80%"></div></div>
+            </div>
+            <div class="mscore">
+              <span>Sintaxis</span>
+              <div class="mscore__track"><div class="mscore__fill" style="--pct:55%"></div></div>
+            </div>
+            <div class="mscore">
+              <span>Organización</span>
+              <div class="mscore__track"><div class="mscore__fill" style="--pct:90%"></div></div>
+            </div>
+          </div>
+          <span class="mcard__result mcard__result--aprobado">Resultado: aprobado ✓</span>
+        </div>
+
+      </div><!-- /hero__cards -->
+    </div><!-- /hero__wrap -->
+  </section>
+
+  <!-- ─── STATS ───────────────────────────────────────────────────── -->
+  <section class="stats">
+    <div class="lcontainer">
+      <div class="stats__row">
+        <div class="sitem">
+          <span class="sitem__n" data-to="4">0</span>
+          <span class="sitem__l">Roles de usuario</span>
+        </div>
+        <div class="sdivider"></div>
+        <div class="sitem">
+          <span class="sitem__n" data-to="5">0</span>
+          <span class="sitem__l">Estados del ticket</span>
+        </div>
+        <div class="sdivider"></div>
+        <div class="sitem">
+          <span class="sitem__n" data-to="6">0</span>
+          <span class="sitem__l">Criterios de revisión</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FUNCIONALIDADES ─────────────────────────────────────────── -->
+  <section class="lsec lsec--white" id="funcionalidades">
+    <div class="lcontainer">
+      <div class="lsec__header feat-head">
+        <span class="ltag">Funcionalidades</span>
+        <h2 class="lh2">Soporte técnico que fluye,<br>sin fricción operativa</h2>
+        <p class="lp">Automatización, trazabilidad y revisión técnica en un flujo claro para equipos reales.</p>
+      </div>
+
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon" style="--c:#285a48;--cb:#d4ede5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <h3>Ciclo de vida completo</h3>
+          <p>Desde <strong>abierto</strong> hasta <strong>cerrado</strong>, cada estado queda auditado: quién lo cambió, cuándo y desde qué estado.</p>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon" style="--c:#408a71;--cb:#e0f2ea">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg>
+          </div>
+          <h3>Auto-asignación inteligente</h3>
+          <p>Un trigger PostgreSQL asigna al instante al desarrollador y revisor con menor carga de tickets activos.</p>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon" style="--c:#4b4038;--cb:#ece7e3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3>Revisión de código detallada</h3>
+          <p>6 criterios técnicos con puntuaciones del 1 al 5: errores lógicos, sintaxis, variables, validaciones, organización y malas prácticas.</p>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon" style="--c:#9a8678;--cb:#f0eae6">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <h3>Notificaciones en tiempo real</h3>
+          <p>Supabase Realtime entrega notificaciones instantáneas a cada actor involucrado en cada transición del ticket.</p>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon" style="--c:#285a48;--cb:#d4ede5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <h3>Panel de administración</h3>
+          <p>Métricas en vivo, filtros avanzados por estado/categoría/prioridad, reasignación manual y gestión de roles.</p>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon" style="--c:#408a71;--cb:#e0f2ea">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Seguridad por RLS</h3>
+          <p>Row Level Security activo en todas las tablas. Cada rol accede únicamente a lo que le corresponde, garantizado en la base de datos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ROLES ────────────────────────────────────────────────────── -->
+  <section class="roles-sec" id="roles">
+    <div class="roles-sec__bg">
+      <div class="roles-orb roles-orb--1"></div>
+      <div class="roles-orb roles-orb--2"></div>
+    </div>
+    <div class="lcontainer">
+      <div class="lsec__header roles-sec__header">
+        <span class="ltag ltag--light">Roles</span>
+        <h2 class="lh2 lh2--light">Cada quien hace lo suyo</h2>
+        <p class="lp lp--light">Cuatro roles con permisos precisos. Sin superposiciones, sin ambigüedades.</p>
+      </div>
+
+      <div class="rstack">
+
+        <!-- Usuario -->
+        <div class="ritem" data-role="usuario">
+          <div class="ritem__aside">
+            <div class="ritem__icon-wrap" style="--rc:#408a71;--rcb:rgba(64,138,113,0.15)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="ritem__label">Usuario</div>
+            <span class="ritem__badge" style="--rc:#408a71;--rcb:rgba(64,138,113,0.15)">Acceso básico</span>
+          </div>
+          <div class="ritem__body">
+            <p class="ritem__desc">Reporta problemas y hace seguimiento de sus casos desde apertura hasta cierre.</p>
+            <ul class="ritem__perms">
+              <li><span class="rperm-dot" style="--rc:#408a71"></span>Crear tickets con título, descripción, categoría y prioridad</li>
+              <li><span class="rperm-dot" style="--rc:#408a71"></span>Ver únicamente sus propios tickets</li>
+              <li><span class="rperm-dot" style="--rc:#408a71"></span>Seguir el estado de cada caso en tiempo real</li>
+              <li><span class="rperm-dot" style="--rc:#408a71"></span>Recibir notificaciones en cada transición del ticket</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Desarrollador -->
+        <div class="ritem" data-role="desarrollador">
+          <div class="ritem__aside">
+            <div class="ritem__icon-wrap" style="--rc:#b0e4cc;--rcb:rgba(176,228,204,0.12)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div class="ritem__label">Desarrollador</div>
+            <span class="ritem__badge" style="--rc:#b0e4cc;--rcb:rgba(176,228,204,0.12)">Agente técnico</span>
+          </div>
+          <div class="ritem__body">
+            <p class="ritem__desc">Atiende tickets asignados automáticamente, documenta el proceso y registra la solución.</p>
+            <ul class="ritem__perms">
+              <li><span class="rperm-dot" style="--rc:#b0e4cc"></span>Ver y atender tickets asignados automáticamente</li>
+              <li><span class="rperm-dot" style="--rc:#b0e4cc"></span>Cambiar estados y añadir observaciones en el hilo</li>
+              <li><span class="rperm-dot" style="--rc:#b0e4cc"></span>Registrar la resolución final documentada</li>
+              <li><span class="rperm-dot" style="--rc:#b0e4cc"></span>Acceder al historial de asignaciones y estados</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Revisor de código -->
+        <div class="ritem" data-role="revisor">
+          <div class="ritem__aside">
+            <div class="ritem__icon-wrap" style="--rc:#caaa98;--rcb:rgba(202,170,152,0.15)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+            <div class="ritem__label">Revisor de código</div>
+            <span class="ritem__badge" style="--rc:#caaa98;--rcb:rgba(202,170,152,0.15)">Rol avanzado</span>
+          </div>
+          <div class="ritem__body">
+            <p class="ritem__desc">Extiende al desarrollador con análisis técnico de código: puntúa 6 criterios y emite un veredicto formal.</p>
+            <ul class="ritem__perms">
+              <li><span class="rperm-dot" style="--rc:#caaa98"></span>Todo lo del desarrollador</li>
+              <li><span class="rperm-dot" style="--rc:#caaa98"></span>Analizar fragmentos de código adjuntos al ticket</li>
+              <li><span class="rperm-dot" style="--rc:#caaa98"></span>Puntuar 6 criterios técnicos (1–5 por categoría)</li>
+              <li><span class="rperm-dot" style="--rc:#caaa98"></span>Emitir resultado: aprobado, rechazado o pendiente</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Admin -->
+        <div class="ritem" data-role="admin">
+          <div class="ritem__aside">
+            <div class="ritem__icon-wrap" style="--rc:#f1f2ef;--rcb:rgba(241,242,239,0.1)">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="ritem__label">Admin</div>
+            <span class="ritem__badge" style="--rc:#f1f2ef;--rcb:rgba(241,242,239,0.1)">Control total</span>
+          </div>
+          <div class="ritem__body">
+            <p class="ritem__desc">Supervisión completa del sistema, métricas en vivo, reasignaciones manuales y gestión de roles.</p>
+            <ul class="ritem__perms">
+              <li><span class="rperm-dot" style="--rc:#f1f2ef"></span>Supervisar todos los tickets con filtros avanzados</li>
+              <li><span class="rperm-dot" style="--rc:#f1f2ef"></span>Ver métricas y KPIs del sistema en tiempo real</li>
+              <li><span class="rperm-dot" style="--rc:#f1f2ef"></span>Reasignar tickets manualmente a cualquier agente</li>
+              <li><span class="rperm-dot" style="--rc:#f1f2ef"></span>Gestionar y cambiar roles de cualquier usuario</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CÓMO FUNCIONA ───────────────────────────────────────────── -->
+  <section class="flow-sec" id="como-funciona">
+    <div class="flow-sec__bg">
+      <div class="flow-orb flow-orb--1"></div>
+      <div class="flow-orb flow-orb--2"></div>
+    </div>
+    <div class="lcontainer">
+      <div class="lsec__header flow-sec__header">
+        <span class="ltag">Flujo</span>
+        <h2 class="lh2">Cómo fluye un ticket</h2>
+        <p class="lp">Siete etapas claras, con trazabilidad total desde la creación hasta el cierre.</p>
+      </div>
+
+      <div class="tflow" id="ticket-flow">
+        <div class="tflow__rail" aria-hidden="true"></div>
+
+        <article class="tstep tstep--left">
+          <span class="tstep__dot">1</span>
+          <div class="tstep__card">
+            <h4>Usuario crea el ticket</h4>
+            <p>Registra título, descripción, categoría y prioridad. El caso nace en estado <em>abierto</em>.</p>
+          </div>
+        </article>
+
+        <article class="tstep tstep--right">
+          <span class="tstep__dot">2</span>
+          <div class="tstep__card">
+            <h4>Asignación automática</h4>
+            <p>El sistema distribuye el ticket al desarrollador y revisor con menor carga activa.</p>
+          </div>
+        </article>
+
+        <article class="tstep tstep--left">
+          <span class="tstep__dot">3</span>
+          <div class="tstep__card">
+            <h4>Revisión inicial</h4>
+            <p>El agente abre el caso, valida contexto y mueve el estado a <em>en_revision</em>.</p>
+          </div>
+        </article>
+
+        <article class="tstep tstep--right">
+          <span class="tstep__dot">4</span>
+          <div class="tstep__card">
+            <h4>Trabajo técnico</h4>
+            <p>Se atiende el problema y se documenta el avance con observaciones en el hilo del ticket.</p>
+          </div>
+        </article>
+
+        <article class="tstep tstep--left">
+          <span class="tstep__dot">5</span>
+          <div class="tstep__card">
+            <h4>Revisión de código</h4>
+            <p>Si aplica, se puntúan criterios técnicos y se emite resultado: aprobado, rechazado o pendiente.</p>
+          </div>
+        </article>
+
+        <article class="tstep tstep--right">
+          <span class="tstep__dot">6</span>
+          <div class="tstep__card">
+            <h4>Resolución</h4>
+            <p>El agente registra la solución final y el ticket pasa a <em>resuelto</em>.</p>
+          </div>
+        </article>
+
+        <article class="tstep tstep--left tstep--final">
+          <span class="tstep__dot">7</span>
+          <div class="tstep__card">
+            <h4>Cierre administrativo</h4>
+            <p>Admin valida el resultado y cierra el caso en estado <em>cerrado</em> con historial completo.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─────────────────────────────────────────────────────── -->
+  <section class="cta-sec">
+    <div class="cta-orb cta-orb--1"></div>
+    <div class="cta-orb cta-orb--2"></div>
+    <div class="lcontainer cta-inner">
+      <h2 class="cta-h2" id="cta-title">¿Listo para gestionar soporte<br>como se debe?</h2>
+      <p class="cta-sub">Inicia sesión y trabaja con un sistema pensado para equipos técnicos reales.</p>
+      <a href="/login.html" class="hbtn hbtn--primary hbtn--lg">Entrar a Quelfix →</a>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────────────── -->
+  <footer class="lfooter">
+    <div class="lcontainer lfooter__inner">
+      <span class="lfooter__brand">Quelfix</span>
+      <span class="lfooter__copy">Sistema de gestión de tickets de soporte técnico con revisión de código</span>
+    </div>
+  </footer>
+
+  <!-- Scripts ─────────────────────────────────────────────────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="/js/config.js"></script>
   <script src="/js/core/auth.js"></script>
-
-  <script>
-    (async () => {
-      const session = await getSession();
-      if (!session) {
-        window.location.href = '/login.html';
-      } else {
-        await redirectByRole();
-      }
-    })();
-  </script>
+  <script src="/js/pages/index.js"></script>
 </body>
 </html>

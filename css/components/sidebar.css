@@ -1,0 +1,254 @@
+/* ── Guarda de ruta: oculta el contenido hasta que auth-ready ────── */
+/* Evita flash de contenido antes de que JS verifique sesión y rol    */
+body:not(.auth-ready) .page-content {
+  visibility: hidden;
+}
+
+/* ── Sidebar — navbar lateral izquierda ─────────────────────────── */
+
+:root {
+  --sidebar-w: 220px;
+}
+
+/* ── Layout body con sidebar ────────────────────────────────────── */
+body.has-sidebar {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+/* ── Sidebar base ───────────────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: linear-gradient(160deg, #0f1f1d 0%, #142926 50%, #1b3a32 100%);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Top: logo + botón cerrar (solo mobile) ─────────────────────── */
+.sidebar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 1.1rem 1rem;
+  border-bottom: 1px solid rgba(176, 228, 204, 0.08);
+  flex-shrink: 0;
+}
+
+.sidebar__brand {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #f1f2ef;
+  letter-spacing: -0.4px;
+  text-decoration: none;
+}
+
+.sidebar__close {
+  display: none;
+  background: transparent;
+  border: none;
+  color: rgba(241, 242, 239, 0.5);
+  cursor: pointer;
+  padding: 0.2rem;
+  line-height: 1;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.sidebar__close:hover {
+  color: #f1f2ef;
+  background: rgba(176, 228, 204, 0.08);
+}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.75rem 0.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(176, 228, 204, 0.15) transparent;
+}
+
+.sidebar__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.62rem 0.8rem;
+  border-radius: 10px;
+  color: rgba(241, 242, 239, 0.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar__link:hover {
+  background: rgba(176, 228, 204, 0.07);
+  color: #f1f2ef;
+  text-decoration: none;
+}
+
+.sidebar__link--active {
+  background: rgba(176, 228, 204, 0.12);
+  color: #b0e4cc;
+  border-left: 2px solid #b0e4cc;
+  padding-left: calc(0.8rem - 2px);
+}
+
+.sidebar__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Footer: rol + logout ───────────────────────────────────────── */
+.sidebar__footer {
+  padding: 0.75rem 0.6rem;
+  border-top: 1px solid rgba(176, 228, 204, 0.08);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sidebar__user {
+  padding: 0.4rem 0.8rem;
+}
+
+.sidebar__user-role {
+  font-size: 0.75rem;
+  color: rgba(176, 228, 204, 0.55);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.62rem 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: rgba(241, 242, 239, 0.55);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar__logout:hover {
+  background: rgba(224, 82, 82, 0.12);
+  color: #e88;
+}
+
+/* ── Toggle button (hamburger — solo mobile) ────────────────────── */
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 190;
+  background: #142926;
+  border: 1px solid rgba(176, 228, 204, 0.15);
+  border-radius: 10px;
+  color: #f1f2ef;
+  cursor: pointer;
+  padding: 0.45rem;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background 0.15s;
+}
+.sidebar-toggle:hover {
+  background: #1b3a32;
+}
+
+/* ── Overlay (mobile) ───────────────────────────────────────────── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.sidebar-overlay--visible {
+  opacity: 1;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body.has-sidebar {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+  }
+
+  .sidebar__close {
+    display: flex;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+}
+
+/* ── Contenido principal de páginas con sidebar ─────────────────── */
+.page-content {
+  min-height: 100vh;
+  padding: 2rem;
+  background: var(--color-bg);
+}
+
+.page-header {
+  margin-bottom: 1.75rem;
+}
+
+.page-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.35px;
+}
+
+.page-subtitle {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: 4.5rem 1.1rem 1.5rem;
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Quelfix</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components/sidebar.css" />
+  <link rel="stylesheet" href="/css/components/admin.css" />
+</head>
+<body>
+  <main class="page-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p id="dash-fecha" class="page-subtitle"></p>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="stat-grid" id="stat-grid">
+      <div class="stat-card stat-card--loading">
+        <div class="stat-card__icon"></div>
+        <div class="stat-card__value">0</div>
+        <div class="stat-card__label">Cargando</div>
+      </div>
+      <div class="stat-card stat-card--loading">
+        <div class="stat-card__icon"></div>
+        <div class="stat-card__value">0</div>
+        <div class="stat-card__label">Cargando</div>
+      </div>
+      <div class="stat-card stat-card--loading">
+        <div class="stat-card__icon"></div>
+        <div class="stat-card__value">0</div>
+        <div class="stat-card__label">Cargando</div>
+      </div>
+      <div class="stat-card stat-card--loading">
+        <div class="stat-card__icon"></div>
+        <div class="stat-card__value">0</div>
+        <div class="stat-card__label">Cargando</div>
+      </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="dash-grid">
+
+      <!-- Tabla de tickets recientes -->
+      <section class="dash-card">
+        <div class="dash-card__head">
+          <h3 class="dash-card__title">Últimos tickets</h3>
+          <a href="/pages/admin/tickets.html" class="dash-card__link">Ver todos →</a>
+        </div>
+        <div id="recent-tickets" class="dash-card__body"></div>
+      </section>
+
+      <!-- Panel lateral -->
+      <aside class="dash-aside">
+
+        <section class="dash-card">
+          <div class="dash-card__head">
+            <h3 class="dash-card__title">Usuarios por rol</h3>
+          </div>
+          <div id="users-by-role" class="dash-card__body"></div>
+        </section>
+
+        <section class="dash-card">
+          <div class="dash-card__head">
+            <h3 class="dash-card__title">Por estado</h3>
+          </div>
+          <div id="status-breakdown" class="dash-card__body"></div>
+        </section>
+
+      </aside>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/notifications.js"></script>
+  <script src="/js/core/sidebar.js"></script>
+  <script src="/js/utils/helpers.js"></script>
+  <script src="/js/pages/admin-dashboard.js"></script>
+</body>
+</html>

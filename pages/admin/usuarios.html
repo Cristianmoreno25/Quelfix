@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuarios — Quelfix</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components/sidebar.css" />
+  <link rel="stylesheet" href="/css/components/admin.css" />
+</head>
+<body>
+  <main class="page-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Usuarios</h1>
+        <p id="usuarios-count" class="page-subtitle">Cargando...</p>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-bar">
+      <div class="filter-search-wrap">
+        <svg class="filter-search-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          type="search"
+          id="filter-search"
+          class="filter-input filter-input--search"
+          placeholder="Buscar por nombre o correo…"
+          autocomplete="off"
+        />
+      </div>
+
+      <select id="filter-rol" class="filter-select">
+        <option value="">Todos los roles</option>
+        <option value="admin">Administrador</option>
+        <option value="desarrollador">Desarrollador</option>
+        <option value="revisor_codigo">Revisor de código</option>
+        <option value="usuario">Usuario</option>
+      </select>
+
+      <button id="filter-clear" class="filter-clear" style="display:none">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+        </svg>
+        Limpiar filtros
+      </button>
+    </div>
+
+    <!-- Tabla -->
+    <div class="dash-card tickets-table-card">
+      <div id="usuarios-table-wrap"></div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/notifications.js"></script>
+  <script src="/js/core/sidebar.js"></script>
+  <script src="/js/utils/helpers.js"></script>
+  <script src="/js/pages/admin-usuarios.js"></script>
+</body>
+</html>

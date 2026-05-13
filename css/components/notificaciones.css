@@ -1,0 +1,259 @@
+/* ── Página de notificaciones ─────────────────────────────────────── */
+
+/* Reutilizamos .page-header, .page-title, .page-subtitle de main.css */
+
+/* ── Botón "Marcar todas" ─────────────────────────────────────────── */
+.notif-mark-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.notif-mark-all-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: #f0f7f4;
+}
+
+.notif-mark-all-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Toolbar con tabs ─────────────────────────────────────────────── */
+.notif-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.notif-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+}
+
+.notif-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: calc(var(--radius) - 2px);
+  border: none;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.notif-tab:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.notif-tab--active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.notif-tab--active:hover {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+/* Badge de no leídas en la pestaña */
+.notif-unread-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.notif-tab--active .notif-unread-count {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── Lista de notificaciones ──────────────────────────────────────── */
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── Item ─────────────────────────────────────────────────────────── */
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.notif-item:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.notif-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.notif-item--unread {
+  background: #f5faf8;
+  border-color: #c8dfd6;
+}
+
+.notif-item--unread:hover {
+  border-color: var(--color-primary);
+}
+
+/* ── Icono del tipo ───────────────────────────────────────────────── */
+.notif-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+/* Colores por tipo */
+.notif-icon--ticket_asignado    { background: #e8f4ef; color: var(--color-primary); }
+.notif-icon--estado_cambiado    { background: #e8f0f8; color: #2c5282; }
+.notif-icon--observacion_añadida { background: #faf0e8; color: #7a5a36; }
+.notif-icon--ticket_resuelto    { background: #e8f4ef; color: var(--color-accent); }
+.notif-icon--ticket_cerrado     { background: #f0eded; color: #9a5252; }
+.notif-icon--reasignacion       { background: #eef0e8; color: #5a6828; }
+.notif-icon--ticket_sin_atender { background: #fdf6e8; color: #9a7a30; }
+
+/* ── Contenido del item ───────────────────────────────────────────── */
+.notif-item__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-item__msg {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  margin-bottom: 0.35rem;
+}
+
+.notif-item--unread .notif-item__msg {
+  font-weight: 500;
+}
+
+.notif-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.notif-item__time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.notif-item__para {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.notif-item__para strong {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* Punto indicador de no leída */
+.notif-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ── Estado vacío ─────────────────────────────────────────────────── */
+.notif-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+/* ── Skeleton de carga ────────────────────────────────────────────── */
+.notif-skeleton {
+  height: 72px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .notif-mark-all-btn span {
+    display: none;
+  }
+  .notif-item {
+    padding: 0.875rem;
+    gap: 0.75rem;
+  }
+  .notif-item__icon {
+    width: 30px;
+    height: 30px;
+  }
+  .notif-item__icon svg {
+    width: 15px;
+    height: 15px;
+  }
+}
