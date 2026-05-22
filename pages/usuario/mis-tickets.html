@@ -6,14 +6,64 @@
   <title>Mis tickets — Quelfix</title>
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/components/sidebar.css" />
+  <link rel="stylesheet" href="/css/components/usuario.css" />
 </head>
 <body>
   <main class="page-content">
-    <div class="page-header">
-      <h1 class="page-title">Mis tickets</h1>
-      <p class="page-subtitle">Revisa el estado de tus solicitudes de soporte</p>
+
+    <!-- Cabecera con CTA -->
+    <div class="ut-page-head">
+      <div class="ut-page-head__text">
+        <h1>Mis tickets</h1>
+        <p>Revisa el estado de tus solicitudes de soporte</p>
+      </div>
+      <a href="/pages/usuario/crear-ticket.html" class="btn-crear">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+        </svg>
+        Nuevo ticket
+      </a>
     </div>
-    <div id="tickets-list"></div>
+
+    <!-- Stats (JS las rellena) -->
+    <div class="ut-stats" id="ut-stats">
+      <div class="ut-stat-skeleton"></div>
+      <div class="ut-stat-skeleton"></div>
+      <div class="ut-stat-skeleton"></div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="ut-filters">
+      <input
+        type="search"
+        id="filter-search"
+        class="ut-filter-search"
+        placeholder="Buscar por título o ID…"
+        autocomplete="off"
+      />
+      <select id="filter-estado" class="ut-filter-select">
+        <option value="">Todos los estados</option>
+        <option value="abierto">Abierto</option>
+        <option value="en_proceso">En proceso</option>
+        <option value="en_revision">En revisión</option>
+        <option value="resuelto">Resuelto</option>
+        <option value="cerrado">Cerrado</option>
+      </select>
+      <button id="filter-clear" class="ut-filter-clear" style="display:none">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13">
+          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+        </svg>
+        Limpiar
+      </button>
+    </div>
+
+    <!-- Lista (JS la rellena) -->
+    <div class="ut-list" id="ut-list">
+      <div class="ut-card-skeleton"></div>
+      <div class="ut-card-skeleton" style="opacity:.7"></div>
+      <div class="ut-card-skeleton" style="opacity:.4"></div>
+    </div>
+
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -21,7 +71,6 @@
   <script src="/js/core/auth.js"></script>
   <script src="/js/core/notifications.js"></script>
   <script src="/js/core/sidebar.js"></script>
-  <script src="/js/utils/validators.js"></script>
   <script src="/js/utils/helpers.js"></script>
   <script src="/js/pages/mis-tickets.js"></script>
 </body>

@@ -3,17 +3,182 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crear ticket — Quelfix</title>
+  <title>Nuevo ticket — Quelfix</title>
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/components/sidebar.css" />
+  <link rel="stylesheet" href="/css/components/usuario.css" />
 </head>
 <body>
   <main class="page-content">
-    <div class="page-header">
-      <h1 class="page-title">Crear ticket</h1>
-      <p class="page-subtitle">Describe tu solicitud de soporte técnico</p>
+
+    <a href="/pages/usuario/mis-tickets.html" class="ut-back">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+      </svg>
+      Cancelar y volver
+    </a>
+
+    <div class="crear-wrap">
+      <div class="crear-card">
+
+        <div class="crear-card__head">
+          <h1>Nuevo ticket de soporte</h1>
+          <p>Cuéntanos tu problema con el mayor detalle posible para poder ayudarte rápido.</p>
+        </div>
+
+        <form class="crear-form" id="crear-form" novalidate>
+
+          <!-- Título -->
+          <div class="form-group">
+            <label class="form-label" for="titulo">
+              Título <span class="form-required">*</span>
+            </label>
+            <input
+              id="titulo"
+              type="text"
+              class="form-input"
+              placeholder="Describe brevemente el problema…"
+              maxlength="200"
+              autocomplete="off"
+            />
+            <span class="form-error" id="titulo-error"></span>
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group">
+            <label class="form-label" for="descripcion">
+              Descripción <span class="form-required">*</span>
+              <span class="char-counter" id="desc-counter">0 / 2000</span>
+            </label>
+            <textarea
+              id="descripcion"
+              class="form-textarea"
+              rows="6"
+              placeholder="Describe el problema con detalle: qué ocurre, cuándo ocurre, pasos para reproducirlo, qué has intentado…"
+              maxlength="2000"
+            ></textarea>
+            <span class="form-error" id="descripcion-error"></span>
+          </div>
+
+          <!-- Categoría -->
+          <div class="form-group">
+            <label class="form-label">
+              Categoría <span class="form-required">*</span>
+            </label>
+            <div class="categoria-grid" id="categoria-grid">
+
+              <label class="categoria-opt">
+                <input type="radio" name="categoria" value="soporte_tecnico_general" />
+                <span class="categoria-opt__card">
+                  <span class="categoria-opt__icon">🔧</span>
+                  <span class="categoria-opt__label">Soporte general</span>
+                </span>
+              </label>
+
+              <label class="categoria-opt">
+                <input type="radio" name="categoria" value="revision_codigo" />
+                <span class="categoria-opt__card">
+                  <span class="categoria-opt__icon">💻</span>
+                  <span class="categoria-opt__label">Revisión de código</span>
+                </span>
+              </label>
+
+              <label class="categoria-opt">
+                <input type="radio" name="categoria" value="error_sistema" />
+                <span class="categoria-opt__card">
+                  <span class="categoria-opt__icon">⚠️</span>
+                  <span class="categoria-opt__label">Error de sistema</span>
+                </span>
+              </label>
+
+              <label class="categoria-opt">
+                <input type="radio" name="categoria" value="consulta_tecnica" />
+                <span class="categoria-opt__card">
+                  <span class="categoria-opt__icon">💬</span>
+                  <span class="categoria-opt__label">Consulta técnica</span>
+                </span>
+              </label>
+
+              <label class="categoria-opt">
+                <input type="radio" name="categoria" value="otro" />
+                <span class="categoria-opt__card">
+                  <span class="categoria-opt__icon">📋</span>
+                  <span class="categoria-opt__label">Otro</span>
+                </span>
+              </label>
+
+            </div>
+            <span class="form-error" id="categoria-error"></span>
+          </div>
+
+          <!-- Código adjunto (solo revision_codigo) -->
+          <div id="codigo-wrap" class="form-group codigo-wrap--hidden">
+            <label class="form-label">
+              Fragmentos de código <span class="form-required">*</span>
+            </label>
+            <p class="codigo-hint">Adjunta el código que quieres que revisemos. Puedes agregar hasta 5 fragmentos en distintos lenguajes.</p>
+            <div id="codigo-notebook"></div>
+            <button type="button" id="codigo-add-btn" class="codigo-add-btn">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+              </svg>
+              Agregar fragmento
+            </button>
+            <span class="form-error" id="codigo-error"></span>
+          </div>
+
+          <!-- Prioridad -->
+          <div class="form-group">
+            <label class="form-label">Prioridad</label>
+            <div class="prioridad-row">
+
+              <label class="prioridad-chip prioridad-chip--baja">
+                <input type="radio" name="prioridad" value="baja" />
+                <span class="prioridad-chip__label">
+                  <span class="prioridad-chip__dot"></span>
+                  Baja
+                </span>
+              </label>
+
+              <label class="prioridad-chip prioridad-chip--media">
+                <input type="radio" name="prioridad" value="media" checked />
+                <span class="prioridad-chip__label">
+                  <span class="prioridad-chip__dot"></span>
+                  Media
+                </span>
+              </label>
+
+              <label class="prioridad-chip prioridad-chip--alta">
+                <input type="radio" name="prioridad" value="alta" />
+                <span class="prioridad-chip__label">
+                  <span class="prioridad-chip__dot"></span>
+                  Alta
+                </span>
+              </label>
+
+              <label class="prioridad-chip prioridad-chip--critica">
+                <input type="radio" name="prioridad" value="critica" />
+                <span class="prioridad-chip__label">
+                  <span class="prioridad-chip__dot"></span>
+                  Crítica
+                </span>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- Enviar -->
+          <button type="submit" class="crear-submit-btn" id="crear-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z"/>
+            </svg>
+            Enviar ticket
+          </button>
+
+        </form>
+      </div>
     </div>
-    <div id="crear-ticket-form"></div>
+
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -21,7 +186,6 @@
   <script src="/js/core/auth.js"></script>
   <script src="/js/core/notifications.js"></script>
   <script src="/js/core/sidebar.js"></script>
-  <script src="/js/utils/validators.js"></script>
   <script src="/js/utils/helpers.js"></script>
   <script src="/js/pages/crear-ticket.js"></script>
 </body>

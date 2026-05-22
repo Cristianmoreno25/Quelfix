@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi perfil — Quelfix</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components/sidebar.css" />
+  <link rel="stylesheet" href="/css/components/perfil.css" />
+</head>
+<body>
+  <main class="page-content">
+
+    <!-- Hero -->
+    <div class="perfil-hero" id="perfil-hero">
+      <div class="perfil-avatar-wrap">
+        <div class="perfil-avatar" id="avatar-display">
+          <span id="avatar-initials"></span>
+          <img id="avatar-img" src="" alt="Foto de perfil" hidden />
+        </div>
+        <button class="perfil-avatar-btn" id="avatar-edit-btn" title="Cambiar foto de perfil">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+            <path fill-rule="evenodd" d="M1 8a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 018.07 3h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0016.07 6H17a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8zm13.5 3a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10 14a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <input type="file" id="avatar-input" accept="image/jpeg,image/png,image/webp" hidden />
+      </div>
+
+      <div class="perfil-hero__info">
+        <h2 class="perfil-hero__name" id="perfil-name">—</h2>
+        <p class="perfil-hero__email" id="perfil-email">—</p>
+        <span class="perfil-hero__role" id="perfil-role-badge">—</span>
+      </div>
+    </div>
+
+    <!-- Barra de previsualización de foto -->
+    <div class="perfil-preview-bar" id="preview-bar" hidden>
+      <div class="perfil-preview-bar__left">
+        <img class="perfil-preview-thumb" id="preview-thumb" src="" alt="" />
+        <span class="perfil-preview-bar__label" id="preview-filename"></span>
+      </div>
+      <div class="perfil-preview-bar__actions">
+        <button class="perfil-preview-cancel" id="preview-cancel">Cancelar</button>
+        <button class="perfil-preview-save" id="preview-save">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+          </svg>
+          Guardar foto
+        </button>
+      </div>
+    </div>
+
+    <!-- Estadísticas del rol -->
+    <div class="perfil-stats" id="perfil-stats">
+      <div class="perfil-stat-skeleton"></div>
+      <div class="perfil-stat-skeleton"></div>
+      <div class="perfil-stat-skeleton"></div>
+    </div>
+
+    <!-- Grid: info personal + contraseña -->
+    <div class="perfil-grid">
+
+      <!-- Información personal -->
+      <section class="dash-card">
+        <div class="dash-card__head">
+          <h3 class="dash-card__title">Información personal</h3>
+        </div>
+        <form id="info-form" class="perfil-form" novalidate>
+          <div class="perfil-field">
+            <label class="perfil-label" for="input-nombre">Nombre completo</label>
+            <input
+              type="text"
+              id="input-nombre"
+              class="perfil-input"
+              placeholder="Tu nombre"
+              autocomplete="name"
+            />
+          </div>
+          <div class="perfil-field">
+            <label class="perfil-label">Correo electrónico</label>
+            <div class="perfil-input perfil-input--readonly" id="display-email">—</div>
+            <p class="perfil-field-hint">El correo solo se puede cambiar desde la configuración de Supabase.</p>
+          </div>
+          <div class="perfil-form__footer">
+            <button type="submit" class="perfil-btn perfil-btn--primary" id="info-save-btn">
+              Guardar cambios
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Cambiar contraseña -->
+      <section class="dash-card">
+        <div class="dash-card__head">
+          <h3 class="dash-card__title">Cambiar contraseña</h3>
+        </div>
+        <form id="password-form" class="perfil-form" novalidate>
+          <div class="perfil-field">
+            <label class="perfil-label" for="input-password">Nueva contraseña</label>
+            <div class="perfil-input-wrap">
+              <input
+                type="password"
+                id="input-password"
+                class="perfil-input"
+                placeholder="Mínimo 8 caracteres"
+                autocomplete="new-password"
+              />
+              <button type="button" class="perfil-eye-btn" id="eye-btn-1" tabindex="-1">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/>
+                  <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+            <span class="perfil-field-error" id="password-error"></span>
+          </div>
+          <div class="perfil-field">
+            <label class="perfil-label" for="input-confirm">Confirmar contraseña</label>
+            <div class="perfil-input-wrap">
+              <input
+                type="password"
+                id="input-confirm"
+                class="perfil-input"
+                placeholder="Repite la contraseña"
+                autocomplete="new-password"
+              />
+              <button type="button" class="perfil-eye-btn" id="eye-btn-2" tabindex="-1">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/>
+                  <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+            <span class="perfil-field-error" id="confirm-error"></span>
+          </div>
+          <div class="perfil-form__footer">
+            <button type="submit" class="perfil-btn perfil-btn--primary" id="password-save-btn">
+              Actualizar contraseña
+            </button>
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/notifications.js"></script>
+  <script src="/js/core/sidebar.js"></script>
+  <script src="/js/utils/helpers.js"></script>
+  <script src="/js/pages/perfil.js"></script>
+</body>
+</html>

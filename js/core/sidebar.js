@@ -8,12 +8,13 @@ const _ROUTE_ACCESS = {
   '/pages/usuario/detalle-ticket.html': ['usuario'],
   '/pages/agente/bandeja.html':         ['desarrollador', 'revisor_codigo'],
   '/pages/agente/detalle-ticket.html':  ['desarrollador', 'revisor_codigo'],
-  '/pages/agente/revision-codigo.html': ['desarrollador', 'revisor_codigo'],
+  '/pages/agente/revision-codigo.html': ['revisor_codigo'],
   '/pages/admin/dashboard.html':        ['admin'],
   '/pages/admin/tickets.html':          ['admin'],
   '/pages/admin/usuarios.html':         ['admin'],
   '/pages/admin/reasignar.html':        ['admin'],
   '/pages/notificaciones.html':         ['admin', 'desarrollador', 'revisor_codigo', 'usuario'],
+  '/pages/perfil.html':                ['admin', 'desarrollador', 'revisor_codigo', 'usuario'],
 };
 
 const _SIDEBAR_ICONS = {
@@ -25,6 +26,7 @@ const _SIDEBAR_ICONS = {
   codigo:        `<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 002 4.25v11.5A2.25 2.25 0 004.25 18h11.5A2.25 2.25 0 0018 15.75V4.25A2.25 2.25 0 0015.75 2H4.25zm4.03 6.28a.75.75 0 00-1.06-1.06L4.97 9.47a.75.75 0 000 1.06l2.25 2.25a.75.75 0 001.06-1.06L6.56 10l1.72-1.72zm4.5-1.06a.75.75 0 10-1.06 1.06L13.44 10l-1.72 1.72a.75.75 0 101.06 1.06l2.25-2.25a.75.75 0 000-1.06l-2.25-2.25z" clip-rule="evenodd"/></svg>`,
   usuarios:      `<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M7 8a3 3 0 100-6 3 3 0 000 6zM14.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM1.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 017 17a9.953 9.953 0 01-5.385-1.572zM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 00-1.588-3.755 4.502 4.502 0 015.874 2.636.818.818 0 01-.36.98A7.465 7.465 0 0114.5 16z"/></svg>`,
   reasignar:     `<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.389zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd"/></svg>`,
+  perfil:        `<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-5.5-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM10 12a5.99 5.99 0 00-4.793 2.39A6.483 6.483 0 0010 16.5a6.483 6.483 0 004.793-2.11A5.99 5.99 0 0010 12z" clip-rule="evenodd"/></svg>`,
   logout:        `<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25zm12.47 4.22a.75.75 0 011.06 0l2.25 2.25a.75.75 0 010 1.06l-2.25 2.25a.75.75 0 11-1.06-1.06l.97-.97H8.75a.75.75 0 010-1.5h7.69l-.97-.97a.75.75 0 010-1.06z" clip-rule="evenodd"/></svg>`,
 };
 
@@ -33,16 +35,18 @@ const _SIDEBAR_MENU = {
     { label: 'Mis tickets',    href: '/pages/usuario/mis-tickets.html',  icon: 'tickets'        },
     { label: 'Crear ticket',   href: '/pages/usuario/crear-ticket.html', icon: 'crear'          },
     { label: 'Notificaciones', href: '/pages/notificaciones.html',       icon: 'notificaciones' },
+    { label: 'Mi perfil',      href: '/pages/perfil.html',               icon: 'perfil'         },
   ],
   desarrollador: [
-    { label: 'Bandeja',         href: '/pages/agente/bandeja.html',         icon: 'bandeja'        },
-    { label: 'Revisión código', href: '/pages/agente/revision-codigo.html', icon: 'codigo'         },
-    { label: 'Notificaciones',  href: '/pages/notificaciones.html',         icon: 'notificaciones' },
+    { label: 'Bandeja',        href: '/pages/agente/bandeja.html',  icon: 'bandeja'        },
+    { label: 'Notificaciones', href: '/pages/notificaciones.html',  icon: 'notificaciones' },
+    { label: 'Mi perfil',      href: '/pages/perfil.html',          icon: 'perfil'         },
   ],
   revisor_codigo: [
     { label: 'Bandeja',         href: '/pages/agente/bandeja.html',         icon: 'bandeja'        },
     { label: 'Revisión código', href: '/pages/agente/revision-codigo.html', icon: 'codigo'         },
     { label: 'Notificaciones',  href: '/pages/notificaciones.html',         icon: 'notificaciones' },
+    { label: 'Mi perfil',       href: '/pages/perfil.html',                 icon: 'perfil'         },
   ],
   admin: [
     { label: 'Dashboard',      href: '/pages/admin/dashboard.html',  icon: 'dashboard'      },
@@ -50,6 +54,7 @@ const _SIDEBAR_MENU = {
     { label: 'Usuarios',       href: '/pages/admin/usuarios.html',   icon: 'usuarios'       },
     { label: 'Reasignar',      href: '/pages/admin/reasignar.html',  icon: 'reasignar'      },
     { label: 'Notificaciones', href: '/pages/notificaciones.html',   icon: 'notificaciones' },
+    { label: 'Mi perfil',      href: '/pages/perfil.html',           icon: 'perfil'         },
   ],
 };
 

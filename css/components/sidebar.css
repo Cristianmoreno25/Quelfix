@@ -165,7 +165,7 @@ body.has-sidebar {
   position: fixed;
   top: 0.9rem;
   left: 0.9rem;
-  z-index: 190;
+  z-index: 210;
   background: #142926;
   border: 1px solid rgba(176, 228, 204, 0.15);
   border-radius: 10px;
@@ -189,10 +189,12 @@ body.has-sidebar {
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(2px);
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.25s;
 }
 .sidebar-overlay--visible {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* ── Mobile ─────────────────────────────────────────────────────── */
@@ -216,6 +218,11 @@ body.has-sidebar {
 
   .sidebar-toggle {
     display: flex;
+  }
+
+  .sidebar--open ~ .sidebar-toggle {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .sidebar-overlay {
