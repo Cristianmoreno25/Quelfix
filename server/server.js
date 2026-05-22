@@ -33,8 +33,23 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', app: 'Quelfix' });
 });
 
+// ── Middleware: verificar JWT de Supabase ─────────────────────────
+async function verificarJWT(req, res, next) {
+  const auth = req.headers['authorization'];
+  if (!auth?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No autorizado.' });
+  }
+  const token = auth.slice(7);
+  const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+  if (error || !user) {
+    return res.status(401).json({ error: 'Token inválido o expirado.' });
+  }
+  req.user = user;
+  next();
+}
+
 // ── IA: analizar código con Groq ──────────────────────────────────
-app.post('/api/ai/analizar-codigo', async (req, res) => {
+app.post('/api/ai/analizar-codigo', verificarJWT, async (req, res) => {
   const { codigo, lenguaje } = req.body ?? {};
 
   if (!codigo || typeof codigo !== 'string' || !codigo.trim()) {
@@ -118,7 +133,7 @@ ${codigo.slice(0, 8000)}
 });
 
 // ── IA: corregir código con Groq ──────────────────────────────────
-app.post('/api/ai/corregir-codigo', async (req, res) => {
+app.post('/api/ai/corregir-codigo', verificarJWT, async (req, res) => {
   const { codigo, lenguaje } = req.body ?? {};
 
   if (!codigo || typeof codigo !== 'string' || !codigo.trim()) {

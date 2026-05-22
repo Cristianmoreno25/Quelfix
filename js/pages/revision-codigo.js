@@ -549,9 +549,13 @@ async function analizarConIA() {
     : (_selectedTicket?.fragmentos_codigo?.[0]?.lenguaje ?? 'otro');
 
   try {
+    const { data: { session } } = await _supaClient.auth.getSession();
     const res = await fetch('/api/ai/analizar-codigo', {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${session?.access_token ?? ''}`,
+      },
       body:    JSON.stringify({ codigo, lenguaje }),
     });
 
