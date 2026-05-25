@@ -261,6 +261,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .reasignar-action-bar {
+    left: 0;
+  }
+}
+
 /* ── Avatar de usuario ──────────────────────────────────────────── */
 .user-avatar {
   width: 34px;
@@ -715,6 +721,8 @@
 /* ── Tickets table card ─────────────────────────────────────────── */
 .tickets-table-card {
   margin-bottom: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tickets-date {
@@ -816,5 +824,23 @@
 
   .data-table tbody tr:last-child {
     border-bottom: none;
+  }
+
+  .filter-input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  .usuarios-table td[data-label="Avatar"]::before {
+    display: none;
+  }
+
+  .usuarios-table td[data-label="Avatar"] {
+    text-align: left;
+    padding-bottom: 0.25rem;
   }
 }
