@@ -349,6 +349,7 @@
   line-height: 1.75;
   color: var(--color-text);
   white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 /* ── Observaciones ────────────────────────────────────────────────── */
@@ -447,6 +448,7 @@
   line-height: 1.6;
   color: var(--color-text);
   white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 .obs-empty {
@@ -1541,6 +1543,9 @@
   .revision-list-panel__items {
     max-height: 220px;
   }
+  .bandeja-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
@@ -1559,6 +1564,14 @@
   }
   .detalle-progress__step-label {
     font-size: 0.62rem;
+  }
+  .detalle-obs__form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .obs-submit-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
