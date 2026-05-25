@@ -518,22 +518,40 @@ function wireObservaciones() {
 function _renderAcciones() {
   const t   = _ticket;
   const est = t.estado;
+
+  if (['resuelto', 'cerrado'].includes(est)) {
+    return `
+      <div class="detalle-readonly-msg">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/>
+        </svg>
+        <span>Ticket ${est === 'resuelto' ? 'resuelto' : 'cerrado'} — solo lectura</span>
+      </div>`;
+  }
+
   const btns = [];
 
   if (est === 'en_revision') {
     btns.push({
-      label: 'Aprobar y resolver',
-      desc:  'El ticket quedará marcado como resuelto',
-      nuevoEstado: 'resuelto',
-      clase: 'primary',
+      label:  'Aprobar',
+      desc:   'Marcar la revisión como aprobada',
+      accion: 'aprobar',
+      clase:  'primary',
       icon: `<svg class="detalle-action-btn__icon" viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>`,
     });
     btns.push({
-      label: 'Rechazar — devolver',
-      desc:  'El ticket vuelve a En proceso',
-      nuevoEstado: 'en_proceso',
-      clase: 'danger',
+      label:  'Rechazar — devolver',
+      desc:   'Devolver al desarrollador (en proceso)',
+      accion: 'rechazar',
+      clase:  'danger',
       icon: `<svg class="detalle-action-btn__icon" viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M7.793 2.232a.75.75 0 01-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 010 10.75H10.75a.75.75 0 010-1.5h2.875a3.875 3.875 0 000-7.75H3.622l4.146 3.957a.75.75 0 01-1.036 1.085l-5.5-5.25a.75.75 0 010-1.085l5.5-5.25a.75.75 0 011.06.025z" clip-rule="evenodd"/></svg>`,
+    });
+    btns.push({
+      label:  'Marcar pendiente',
+      desc:   'Dejar la revisión en espera',
+      accion: 'pendiente',
+      clase:  'secondary',
+      icon: `<svg class="detalle-action-btn__icon" viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 001.5 0V8.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L6.2 9.74a.75.75 0 101.1 1.02l1.95-2.1v4.59z" clip-rule="evenodd"/></svg>`,
     });
   }
 
@@ -555,38 +573,64 @@ function _renderAcciones() {
     if (b.href) {
       return `<a href="${b.href}" class="detalle-action-btn detalle-action-btn--${b.clase}">${inner}</a>`;
     }
-    return `<button class="detalle-action-btn detalle-action-btn--${b.clase}" data-estado="${b.nuevoEstado}">${inner}</button>`;
+    return `<button class="detalle-action-btn detalle-action-btn--${b.clase}" data-accion="${b.accion}">${inner}</button>`;
   }).join('');
 }
 
 function wireAcciones() {
   document.getElementById('acciones-wrap').addEventListener('click', async e => {
-    const btn = e.target.closest('[data-estado]');
+    const btn = e.target.closest('[data-accion]');
     if (!btn) return;
 
-    const nuevoEstado = btn.dataset.estado;
+    const accion = btn.dataset.accion;
     btn.disabled    = true;
     btn.textContent = 'Actualizando…';
 
-    const { error } = await _supaClient
-      .from('tickets')
-      .update({ estado: nuevoEstado, updated_at: new Date().toISOString() })
-      .eq('id', _ticketId);
+    const resultadoMap = { aprobar: 'aprobado', rechazar: 'rechazado', pendiente: 'pendiente' };
+    const resultado    = resultadoMap[accion];
 
-    if (error) {
-      showToast('No se pudo actualizar el estado.', 'error');
-    } else {
-      _ticket.estado = nuevoEstado;
-      showToast(`Estado actualizado a "${ESTADO_LABELS[nuevoEstado]}".`, 'success');
-      const progressEl = document.querySelector('.detalle-progress');
-      if (progressEl) progressEl.outerHTML = _renderProgress(nuevoEstado);
-      document.querySelectorAll('.detalle-badges .badge, .detalle-panel-row .badge').forEach(el => {
-        if (Object.keys(ESTADO_LABELS).some(k => el.classList.contains(`badge--${k}`))) {
-          el.className  = `badge badge--${nuevoEstado}`;
-          el.textContent = ESTADO_LABELS[nuevoEstado];
-        }
-      });
+    // Upsert en revision_codigo (aprobar, rechazar y pendiente actualizan la revisión)
+    const { error: revError } = await _supaClient.from('revision_codigo').upsert({
+      ticket_id:  _ticketId,
+      revisor_id: _userId,
+      resultado,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'ticket_id' });
+
+    if (revError) {
+      showToast('No se pudo actualizar la revisión.', 'error');
+      document.getElementById('acciones-wrap').innerHTML = _renderAcciones();
+      wireAcciones();
+      return;
     }
+
+    // Solo "rechazar" cambia el estado del ticket
+    if (accion === 'rechazar') {
+      const { error: ticketError } = await _supaClient
+        .from('tickets')
+        .update({ estado: 'en_proceso', updated_at: new Date().toISOString() })
+        .eq('id', _ticketId);
+
+      if (ticketError) {
+        showToast('No se pudo devolver el ticket.', 'error');
+      } else {
+        _ticket.estado = 'en_proceso';
+        showToast('Ticket devuelto al desarrollador.', 'success');
+        const progressEl = document.querySelector('.detalle-progress');
+        if (progressEl) progressEl.outerHTML = _renderProgress('en_proceso');
+        document.querySelectorAll('.detalle-badges .badge, .detalle-panel-row .badge').forEach(el => {
+          if (Object.keys(ESTADO_LABELS).some(k => el.classList.contains(`badge--${k}`))) {
+            el.className   = 'badge badge--en_proceso';
+            el.textContent = ESTADO_LABELS['en_proceso'];
+          }
+        });
+      }
+    } else {
+      showToast(accion === 'aprobar' ? 'Revisión aprobada.' : 'Revisión marcada como pendiente.', 'success');
+    }
+
+    if (!_revision) _revision = {};
+    _revision.resultado = resultado;
 
     document.getElementById('acciones-wrap').innerHTML = _renderAcciones();
     wireAcciones();

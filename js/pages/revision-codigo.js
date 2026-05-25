@@ -126,6 +126,7 @@ function _avgLabel(val) {
 function renderForm() {
   const t   = _selectedTicket;
   const rev = _existingRevision;
+  const isReadOnly = ['resuelto', 'cerrado'].includes(t.estado);
 
   const criteriosHTML = CRITERIOS.map(c => {
     const puntuacion = rev?.[`puntuacion_${c.key}`] ?? 0;
@@ -171,6 +172,14 @@ function renderForm() {
         ${rev ? `<span style="font-size:0.78rem;color:var(--color-text-muted)">· Revisión guardada anteriormente</span>` : ''}
       </div>
     </div>
+
+    ${isReadOnly ? `
+    <div class="revision-readonly-banner">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/>
+      </svg>
+      Ticket ${t.estado === 'resuelto' ? 'resuelto' : 'cerrado'} — evaluación de solo lectura
+    </div>` : ''}
 
     <div class="revision-form-body">
 
@@ -226,6 +235,7 @@ function renderForm() {
       </div>
 
       <!-- Footer -->
+      ${!isReadOnly ? `
       <div class="revision-form__footer">
         <button class="revision-save-btn" id="revision-save-btn">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
@@ -233,9 +243,16 @@ function renderForm() {
           </svg>
           ${rev ? 'Actualizar revisión' : 'Guardar revisión'}
         </button>
-      </div>
+      </div>` : ''}
 
     </div>`;
+
+  if (isReadOnly) {
+    document.querySelectorAll(
+      '#revision-form-panel input, #revision-form-panel textarea, #revision-form-panel select, #revision-form-panel button'
+    ).forEach(el => { el.disabled = true; });
+    return;
+  }
 
   wireScoreBtns();
   wireSaveBtn();

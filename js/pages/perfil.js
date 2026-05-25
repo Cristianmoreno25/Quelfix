@@ -79,6 +79,14 @@ async function renderStats() {
   const wrap = document.getElementById('perfil-stats');
   let stats  = [];
 
+  const ICONS = {
+    doc:   `<path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0-6a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z" clip-rule="evenodd"/>`,
+    user:  `<path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z"/>`,
+    check: `<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/>`,
+    clock: `<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd"/>`,
+    alert: `<path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>`,
+  };
+
   if (_rol === 'admin') {
     const [usersRes, ticketsRes, sinAsignarRes] = await Promise.all([
       _supaClient.from('perfiles').select('id', { count: 'exact', head: true }),
@@ -87,9 +95,9 @@ async function renderStats() {
         .is('desarrollador_id', null),
     ]);
     stats = [
-      { label: 'Usuarios registrados', value: usersRes.count  ?? 0, color: '#285a48' },
-      { label: 'Tickets en el sistema', value: ticketsRes.count ?? 0, color: '#2c5282' },
-      { label: 'Sin asignar',          value: sinAsignarRes.count ?? 0, color: '#9a5252' },
+      { label: 'Usuarios registrados',  value: usersRes.count      ?? 0, color: '#285a48', iconBg: 'rgba(40,90,72,.1)',    icon: ICONS.user  },
+      { label: 'Tickets en el sistema', value: ticketsRes.count    ?? 0, color: '#2c5282', iconBg: 'rgba(44,82,130,.1)',   icon: ICONS.doc   },
+      { label: 'Sin asignar',           value: sinAsignarRes.count ?? 0, color: '#9a5252', iconBg: 'rgba(154,82,82,.1)',   icon: ICONS.alert },
     ];
 
   } else if (_rol === 'desarrollador') {
@@ -102,9 +110,9 @@ async function renderStats() {
         .eq('desarrollador_id', _user.id).eq('estado', 'resuelto'),
     ]);
     stats = [
-      { label: 'Tickets asignados', value: asignadosRes.count ?? 0, color: '#285a48' },
-      { label: 'En proceso',        value: procesoRes.count   ?? 0, color: '#2c5282' },
-      { label: 'Resueltos',         value: resueltosRes.count ?? 0, color: '#408a71' },
+      { label: 'Tickets asignados', value: asignadosRes.count  ?? 0, color: '#285a48', iconBg: 'rgba(40,90,72,.1)',    icon: ICONS.doc   },
+      { label: 'En proceso',        value: procesoRes.count    ?? 0, color: '#2c5282', iconBg: 'rgba(44,82,130,.1)',   icon: ICONS.clock },
+      { label: 'Resueltos',         value: resueltosRes.count  ?? 0, color: '#408a71', iconBg: 'rgba(64,138,113,.1)', icon: ICONS.check },
     ];
 
   } else if (_rol === 'revisor_codigo') {
@@ -117,9 +125,9 @@ async function renderStats() {
         .eq('revisor_id', _user.id).eq('resultado', 'aprobado'),
     ]);
     stats = [
-      { label: 'Asignado como revisor', value: asignadosRes.count  ?? 0, color: '#285a48' },
-      { label: 'Revisiones pendientes', value: pendientesRes.count ?? 0, color: '#7a5a36' },
-      { label: 'Aprobadas',             value: aprobadosRes.count  ?? 0, color: '#408a71' },
+      { label: 'Asignado como revisor', value: asignadosRes.count  ?? 0, color: '#285a48', iconBg: 'rgba(40,90,72,.1)',    icon: ICONS.doc   },
+      { label: 'Revisiones pendientes', value: pendientesRes.count ?? 0, color: '#7a5a36', iconBg: 'rgba(122,90,54,.1)',   icon: ICONS.clock },
+      { label: 'Aprobadas',             value: aprobadosRes.count  ?? 0, color: '#408a71', iconBg: 'rgba(64,138,113,.1)', icon: ICONS.check },
     ];
 
   } else {
@@ -132,16 +140,21 @@ async function renderStats() {
         .eq('usuario_id', _user.id).eq('estado', 'abierto'),
     ]);
     stats = [
-      { label: 'Tickets creados',  value: creadosRes.count   ?? 0, color: '#285a48' },
-      { label: 'Resueltos',        value: resueltosRes.count ?? 0, color: '#408a71' },
-      { label: 'Abiertos',         value: abiertosRes.count  ?? 0, color: '#2c5282' },
+      { label: 'Tickets creados', value: creadosRes.count   ?? 0, color: '#285a48', iconBg: 'rgba(40,90,72,.1)',    icon: ICONS.doc   },
+      { label: 'Resueltos',       value: resueltosRes.count ?? 0, color: '#408a71', iconBg: 'rgba(64,138,113,.1)', icon: ICONS.check },
+      { label: 'Abiertos',        value: abiertosRes.count  ?? 0, color: '#2c5282', iconBg: 'rgba(44,82,130,.1)',  icon: ICONS.clock },
     ];
   }
 
   wrap.innerHTML = stats.map(s => `
-    <div class="perfil-stat-card" style="--stat-color:${s.color}">
-      <div class="perfil-stat-card__value">${s.value}</div>
-      <div class="perfil-stat-card__label">${s.label}</div>
+    <div class="perfil-stat-card" style="--stat-color:${s.color};--stat-icon-bg:${s.iconBg}">
+      <div class="perfil-stat-card__icon">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20">${s.icon}</svg>
+      </div>
+      <div class="perfil-stat-card__content">
+        <div class="perfil-stat-card__value">${s.value}</div>
+        <div class="perfil-stat-card__label">${s.label}</div>
+      </div>
     </div>`
   ).join('');
 }

@@ -21,23 +21,25 @@
 
     <!-- Hero -->
     <div class="perfil-hero" id="perfil-hero">
-      <div class="perfil-avatar-wrap">
-        <div class="perfil-avatar" id="avatar-display">
-          <span id="avatar-initials"></span>
-          <img id="avatar-img" src="" alt="Foto de perfil" hidden />
+      <div class="perfil-hero__banner"></div>
+      <div class="perfil-hero__body">
+        <div class="perfil-avatar-wrap">
+          <div class="perfil-avatar" id="avatar-display">
+            <span id="avatar-initials"></span>
+            <img id="avatar-img" src="" alt="Foto de perfil" hidden />
+          </div>
+          <button class="perfil-avatar-btn" id="avatar-edit-btn" title="Cambiar foto de perfil">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path fill-rule="evenodd" d="M1 8a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 018.07 3h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0016.07 6H17a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8zm13.5 3a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10 14a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <input type="file" id="avatar-input" accept="image/jpeg,image/png,image/webp" hidden />
         </div>
-        <button class="perfil-avatar-btn" id="avatar-edit-btn" title="Cambiar foto de perfil">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
-            <path fill-rule="evenodd" d="M1 8a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 018.07 3h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0016.07 6H17a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8zm13.5 3a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10 14a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-        <input type="file" id="avatar-input" accept="image/jpeg,image/png,image/webp" hidden />
-      </div>
-
-      <div class="perfil-hero__info">
-        <h2 class="perfil-hero__name" id="perfil-name">—</h2>
-        <p class="perfil-hero__email" id="perfil-email">—</p>
-        <span class="perfil-hero__role" id="perfil-role-badge">—</span>
+        <div class="perfil-hero__info">
+          <h2 class="perfil-hero__name" id="perfil-name">—</h2>
+          <p class="perfil-hero__email" id="perfil-email">—</p>
+          <span class="perfil-hero__role" id="perfil-role-badge">—</span>
+        </div>
       </div>
     </div>
 
@@ -70,7 +72,10 @@
 
       <!-- Información personal -->
       <section class="dash-card">
-        <div class="dash-card__head">
+        <div class="dash-card__head" style="display:flex;align-items:center;gap:0.5rem">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" style="color:var(--color-accent);flex-shrink:0">
+            <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z"/>
+          </svg>
           <h3 class="dash-card__title">Información personal</h3>
         </div>
         <form id="info-form" class="perfil-form" novalidate>
@@ -99,7 +104,10 @@
 
       <!-- Cambiar contraseña -->
       <section class="dash-card">
-        <div class="dash-card__head">
+        <div class="dash-card__head" style="display:flex;align-items:center;gap:0.5rem">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" style="color:var(--color-accent);flex-shrink:0">
+            <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/>
+          </svg>
           <h3 class="dash-card__title">Cambiar contraseña</h3>
         </div>
         <form id="password-form" class="perfil-form" novalidate>

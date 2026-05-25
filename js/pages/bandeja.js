@@ -130,40 +130,45 @@ function renderList() {
   }
 
   wrap.innerHTML = _filteredTickets.map(t => {
-    const titulo    = t.titulo.length > 70 ? t.titulo.slice(0, 70) + '…' : t.titulo;
+    const titulo    = t.titulo.length > 72 ? t.titulo.slice(0, 72) + '…' : t.titulo;
     const creadoPor = t.usuario_id ? (_perfilMap[t.usuario_id] ?? 'Usuario') : '—';
     const categoria = CATEGORIA_LABELS[t.categoria] ?? t.categoria;
+    const cardMod   = t.estado === 'resuelto' ? ' bandeja-card--finalizado' : '';
 
     return `
       <a
-        class="bandeja-card bandeja-card--${t.prioridad}"
+        class="bandeja-card bandeja-card--${t.prioridad}${cardMod}"
         href="/pages/agente/${_rol === 'revisor_codigo' ? 'detalle-ticket-revisor' : 'detalle-ticket'}.html?id=${t.id}"
       >
-        <div class="bandeja-card__main">
-          <div class="bandeja-card__id">#${t.id.slice(0, 8)}</div>
-          <div class="bandeja-card__title-row">
-              <span class="priority-dot priority-dot--${t.prioridad}"></span>
-              <span class="bandeja-card__title" title="${t.titulo}">${titulo}</span>
+        <div class="bandeja-card__body">
+          <div class="bandeja-card__toprow">
+            <div class="bandeja-card__id-cat">
+              <span class="bandeja-card__id">#${t.id.slice(0, 8)}</span>
+              <span class="bandeja-card__cat-chip">${categoria}</span>
             </div>
-          <div class="bandeja-card__meta">
-            <span class="bandeja-card__meta-item">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
-                <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z"/>
-              </svg>
-              ${creadoPor}
-            </span>
-            <span class="bandeja-card__meta-item">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
-                <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd"/>
-              </svg>
-              ${formatDate(t.created_at)}
-            </span>
-            <span>${categoria}</span>
+            <span class="badge badge--${t.estado}">${ESTADO_LABELS[t.estado] ?? t.estado}</span>
           </div>
-        </div>
-        <div class="bandeja-card__badges">
-          <span class="badge badge--${t.estado}">${ESTADO_LABELS[t.estado] ?? t.estado}</span>
-          <span class="badge badge--${t.prioridad}">${PRIORIDAD_LABELS[t.prioridad] ?? t.prioridad}</span>
+          <div class="bandeja-card__title-row">
+            <span class="priority-dot priority-dot--${t.prioridad}"></span>
+            <span class="bandeja-card__title" title="${t.titulo}">${titulo}</span>
+          </div>
+          <div class="bandeja-card__bottomrow">
+            <div class="bandeja-card__meta">
+              <span class="bandeja-card__meta-item">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
+                  <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z"/>
+                </svg>
+                ${creadoPor}
+              </span>
+              <span class="bandeja-card__meta-item">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
+                  <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd"/>
+                </svg>
+                ${formatDate(t.created_at)}
+              </span>
+            </div>
+            <span class="bandeja-card__prio-chip bandeja-card__prio-chip--${t.prioridad}">${PRIORIDAD_LABELS[t.prioridad] ?? t.prioridad}</span>
+          </div>
         </div>
         <svg class="bandeja-card__arrow" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
           <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>

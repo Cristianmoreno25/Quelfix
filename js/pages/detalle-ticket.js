@@ -651,9 +651,9 @@ function _renderAcciones() {
     }
     if (est === 'en_proceso') {
       btns.push({ label: 'Enviar a revisión', desc: 'El revisor evaluará el código', nuevoEstado: 'en_revision', clase: 'primary', icon: 'send' });
-      if (t.categoria !== 'revision_codigo') {
-        btns.push({ label: 'Marcar como resuelto', desc: 'Resolver sin pasar por revisión de código', nuevoEstado: 'resuelto', clase: 'secondary', icon: 'check' });
-      }
+    }
+    if (t.categoria !== 'revision_codigo' && ['en_proceso', 'en_revision'].includes(est)) {
+      btns.push({ label: 'Marcar como resuelto', desc: 'Resolver sin revisión de código', nuevoEstado: 'resuelto', clase: 'secondary', icon: 'check' });
     }
     if (_revision?.resultado === 'aprobado' && !['resuelto', 'cerrado'].includes(est)) {
       btns.push({ label: 'Marcar como resuelto', desc: 'El revisor aprobó el código ✓', nuevoEstado: 'resuelto', clase: 'primary', icon: 'check' });
